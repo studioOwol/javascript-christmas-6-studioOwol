@@ -52,4 +52,19 @@ const EVENTS = Object.freeze({
   },
 });
 
-export { DAYS, DISCOUNT, PERIOD, EVENTS, NAMES };
+const BADGE = Object.freeze({
+  star: {
+    condition: -5000,
+    name: '별',
+  },
+  tree: {
+    condition: -10000,
+    name: '트리',
+  },
+  santa: {
+    condition: -20000,
+    name: '산타',
+  },
+});
+
+export { DAYS, DISCOUNT, PERIOD, EVENTS, NAMES, BADGE };

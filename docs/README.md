@@ -31,7 +31,6 @@
 - [x] 이벤트 종류별 금액 조건에 해당하는 경우 할인 금액을 계산한다.
 - [x] 혜택 내역을 만든다.
 - [x] 총혜택 금액을 계산한다.
-- [x] 증정 여부를 구한다.
 
 ### 배지(events)
 
@@ -39,6 +38,7 @@
 
 ### 이벤트 서비스(EventService)
 
+- [x] 증정 여부를 구한다.
 - [x] 총주문 금액, 총혜택 금액, 증정품의 가격을 반영하여 예상 결제 금액을 계산한다.
 - [x] 총혜택 금액에 따른 배지 종류를 결정한다.
 - [x] 고객에게 보여줄 항목들을 가져온다.
@@ -126,4 +126,101 @@ src
  ┣ App.js
  ┗ index.js
 
+```
+
+<br>
+
+## 🔗 Class Diagram
+
+```mermaid
+
+classDiagram
+  class EventController {
+    +init()
+    -handleOrderSheetStage()
+    -handleBenefitStage(visitDay, order, totalAmount)
+    -checkPaymentStage(totalAmount, totalBenefit)
+    -checkBadgeStage(totalBenefit)
+    -takeVisitDayStage()
+    -takeOrderStage()
+  }
+
+  class EventService {
+    +createBenefit(visitDay)
+    +createOrder(orders)
+    +getOrderSheet(order)
+    +checkGift(totalAmount)
+    +getBenefitSheet(benefit, order)
+    +getTotalBenefit(benefit)
+    +checkPaymentAmount(totalAmount, totalBenefit)
+    +checkEventBadge(totalBenefit)
+  }
+
+  class Order {
+    -orders
+    +constructor(orders)
+    +createOrderSheet()
+    +calculateTotalAmount(orderSheet)
+    +countDessertMenu(orderSheet)
+    +countMainMenu(orderSheet)
+  }
+
+  class Benefit {
+    -visitDay
+    -benefitSheet
+    +constructor(visitDay)
+    +calculateTotalBenefit()
+    +processBenefitDetails()
+    +hasNoneDiscounts()
+    +createBenefitSheet(totalAmount, dessertCount, mainCount)
+    +calculateDiscount(eventType, dessertCount, mainCount)
+    +calculateSeasonDiscount(eventType)
+    -checkSeason()
+    +calculateWeekdayDiscount(eventType)
+    +calculateWeekendDiscount(eventType)
+    +calculateSpecialDiscount(eventType)
+    +calculateGiftDiscount(eventType)
+  }
+
+  class InputView {
+    +readDate()
+    +readOrder()
+  }
+
+  class OutputView {
+    +printMenu(orderSheet)
+    +printTotalAmount(totalAmount)
+    +printGift(gift)
+    +printDetails(benefitDetails)
+    +printTotalBenefit(totalBenefit)
+    +printPayment(payment)
+    +printBadge(badge)
+  }
+
+  EventController --> EventService : 이벤트 내역 생성
+  EventController --> InputView : 사용자 입력값 반환
+  EventController --> OutputView : 이벤트 내역 출력
+  EventService --> Order : 주문 내역 생성
+  EventService --> Benefit : 혜택 내역 생성
+
+```
+
+<br>
+
+## 📈 Flow Chart
+
+```mermaid
+flowchart TB
+
+    A([실행 시작 <br> App]) --> B[/방문 날짜 입력 <br> InputView/]
+    B --> C{방문 날짜 유효성 검사 <br> formValidator}
+    C -->|yes| E[/주문 입력 <br> Benefit/]
+    C --> |no| B
+    E --> F{주문 유효성 검사 <br> formValidator <br> orderValidator}
+    F -->|yes| G[ 주문 내역 생성 <br> Order]
+    F --> |no| E
+    G --> H[혜택 내역 생성 <br> Benefit]
+    H --> I[이벤트 내역 생성 <br> EventService]
+    I --> J[/이벤트 내역 출력 <br >OutputView/]
+    J --> K([실행 종료])
 ```

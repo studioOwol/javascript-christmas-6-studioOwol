@@ -2,6 +2,7 @@ import Benefit from '../src/domain/Benefit.js';
 import Order from '../src/domain/Order.js';
 import { MENUS } from '../src/constants/menus.js';
 import { EVENTS, BADGE } from '../src/constants/events.js';
+import { OUTPUT_MESSAGE } from '../src/constants/texts.js';
 
 describe('EventService', () => {
   const visitDay = 3;
@@ -9,6 +10,18 @@ describe('EventService', () => {
   const { totalAmount, dessertCount, mainCount } = makeOrderSheet();
   benefit.createBenefitSheet(totalAmount, { dessertCount, mainCount });
   const totalBenefit = benefit.calcaulteTotalBenefit();
+
+  describe('증정 여부 반환', () => {
+    test('총주문 금액 조건에 해당하면, 증정을 제공한다.', () => {
+      let gift = '';
+
+      if (totalAmount >= EVENTS.gift.condition) {
+        gift = OUTPUT_MESSAGE.gift;
+      }
+
+      expect(gift).toBe(OUTPUT_MESSAGE.gift);
+    });
+  });
 
   describe('예상 결제 금액 계산', () => {
     test('총주문 금액, 총혜택 금액, 증정품의 가격을 반영하여 예상 결제 금액을 계산한다.', () => {

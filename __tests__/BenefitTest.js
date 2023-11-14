@@ -97,8 +97,8 @@ describe('Benefit', () => {
     });
   });
 
-  describe('총혜택 금액 계산과 증정 여부 반환', () => {
-    test('총혜택 금액을 계산한다.', () => {
+  describe('총혜택 금액 계산', () => {
+    test('혜택 내역으로 총혜택 금액을 계산한다.', () => {
       let totalBenefit = 0;
 
       benefitSheet.forEach(discount => {
@@ -106,17 +106,6 @@ describe('Benefit', () => {
       });
 
       expect(totalBenefit).toBe(-31246);
-    });
-
-    test('증정 여부를 확인한다.', () => {
-      let result = '';
-      if (benefitSheet.get(EVENTS.gift.name) === 0) {
-        result = EVENTS.none;
-      }
-
-      result = OUTPUT_MESSAGE.gift;
-
-      expect(result).toBe(OUTPUT_MESSAGE.gift);
     });
   });
 });

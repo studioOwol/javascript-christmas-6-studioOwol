@@ -46,14 +46,14 @@ describe('Validator', () => {
     test('음료 메뉴만 있으면, 에러를 발생시킨다.', () => {
       const orders = ['레드와인-1', '제로콜라-1'];
 
-      const hasNonDrinkOrder = orders.some(order => {
+      const hasNoneDrinkOrder = orders.some(order => {
         const menuName = order.split('-')[0];
         const menuItem = MENUS[menuName];
         return menuItem?.kind !== KINDS.drink;
       });
 
       expect(() => {
-        if (!hasNonDrinkOrder) {
+        if (!hasNoneDrinkOrder) {
           throw new CustomError(ERROR.hasDrinkOnly);
         }
       }).toThrow();

@@ -41,13 +41,13 @@ const orderValidator = {
   },
 
   hasDrinkOnly(orders) {
-    const hasNonDrinkOrder = orders.some(order => {
+    const hasNoneDrinkOrder = orders.some(order => {
       const menuName = order.split('-')[0];
       const menu = MENUS[menuName];
       return menu?.kind !== KINDS.drink;
     });
 
-    if (!hasNonDrinkOrder) {
+    if (!hasNoneDrinkOrder) {
       throw new CustomError(ERROR.hasDrinkOnly);
     }
   },

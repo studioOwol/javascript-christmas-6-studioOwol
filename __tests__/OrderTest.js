@@ -1,4 +1,5 @@
 import { KINDS, MENUS } from '../src/constants/menus.js';
+import { SYMBOL } from '../src/constants/texts.js';
 
 describe('Order', () => {
   test.each([
@@ -19,7 +20,7 @@ describe('Order', () => {
     let orderSheet = new Map();
 
     orders.forEach(order => {
-      const [menuName, quantity] = order.split('-');
+      const [menuName, quantity] = order.split(SYMBOL.bar);
       orderSheet.set(menuName, Number(quantity));
     });
 

@@ -28,4 +28,9 @@ const TITLE = {
   badge: '\n<12월 이벤트 배지>',
 };
 
-export { INPUT_MESSAGE, OUTPUT_MESSAGE, TITLE };
+const SYMBOL = {
+  bar: '-',
+  comma: ',',
+};
+
+export { INPUT_MESSAGE, OUTPUT_MESSAGE, TITLE, SYMBOL };

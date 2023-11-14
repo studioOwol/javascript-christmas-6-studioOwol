@@ -1,5 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
-import { INPUT_MESSAGE } from '../constants/texts.js';
+import { INPUT_MESSAGE, SYMBOL } from '../constants/texts.js';
 import formValidator from '../utils/formValidator.js';
 
 const InputView = {
@@ -19,7 +19,7 @@ const InputView = {
     let orders;
     try {
       const order = await Console.readLineAsync(INPUT_MESSAGE.orders);
-      orders = order.trim().replace(/\s/g, '').split(',');
+      orders = order.trim().replace(/\s/g, '').split(SYMBOL.comma);
       formValidator.validateOrderForm(orders);
     } catch (error) {
       Console.print(error.message);

@@ -2,13 +2,14 @@ import { ERROR } from '../src/constants/errors.js';
 import CustomError from '../src/utils/CustomError.js';
 import { KINDS, MENUS } from '../src/constants/menus.js';
 import { PERIOD } from '../src/constants/events.js';
+import { SYMBOL } from '../src/constants/texts.js';
 
 describe('Validator', () => {
   describe('orderValidator', () => {
     test('주문 개수가 20개를 초과하면, 에러를 발생시킨다.', () => {
       const orders = ['시저샐러드-10', '타파스-11'];
       const totalCount = orders.reduce((count, order) => {
-        const quantity = Number(order.split('-')[1]);
+        const quantity = Number(order.split(SYMBOL.bar)[1]);
         return count + quantity;
       }, 0);
 
@@ -22,7 +23,7 @@ describe('Validator', () => {
     test('메뉴판에 없는 메뉴이면, 에러를 발생시킨다.', () => {
       const order = '콜라-10';
 
-      const menuName = order.split('-')[0];
+      const menuName = order.split(SYMBOL.bar)[0];
       const isInMenu = menuName in MENUS;
 
       if (!isInMenu) {
@@ -34,7 +35,9 @@ describe('Validator', () => {
 
     test('중복되는 메뉴가 있으면, 에러를 발생시킨다.', () => {
       const orders = ['시저샐러드-10', '시저샐러드-10'];
-      const uniqueMenus = new Set(orders.map(order => order.split('-')[0]));
+      const uniqueMenus = new Set(
+        orders.map(order => order.split(SYMBOL.bar)[0]),
+      );
 
       if (orders.length !== uniqueMenus.size) {
         expect(() => {
@@ -47,7 +50,7 @@ describe('Validator', () => {
       const orders = ['레드와인-1', '제로콜라-1'];
 
       const hasNoneDrinkOrder = orders.some(order => {
-        const menuName = order.split('-')[0];
+        const menuName = order.split(SYMBOL.bar)[0];
         const menuItem = MENUS[menuName];
         return menuItem?.kind !== KINDS.drink;
       });
@@ -93,7 +96,7 @@ describe('Validator', () => {
         const parts = trimmedOrder.split(',');
 
         parts.forEach(part => {
-          const [menuName, quantity] = part.split('-');
+          const [menuName, quantity] = part.split(SYMBOL.bar);
           if (!menuName || Number(quantity) < 1 || isNaN(quantity)) {
             throw new CustomError(ERROR.invalidOrder);
           }

@@ -2,6 +2,7 @@ import { DAYS, DISCOUNT, EVENTS } from '../src/constants/events.js';
 import { KINDS, MENUS } from '../src/constants/menus.js';
 import Benefit from '../src/domain/Benefit.js';
 import Order from '../src/domain/Order.js';
+import { OUTPUT_MESSAGE } from '../src/constants/texts.js';
 
 describe('Benefit', () => {
   describe('방문 날짜에 따른 할인 금액 계산', () => {
@@ -73,6 +74,27 @@ describe('Benefit', () => {
 
       expect(benefitSheet.get(EVENTS.gift.name)).toBe(-25000);
     });
+
+    test.each([
+      '크리스마스 디데이 할인: -1,200원',
+      '특별 할인: -1,000원',
+      '평일 할인: -4,046원',
+      '증정 이벤트: -25,000원',
+    ])('혜택 내역을 문자열로 묶어서 반환한다.', eventType => {
+      let benefitDetails = '';
+
+      if (hasNoneDiscounts()) {
+        return EVENTS.none;
+      }
+
+      benefitSheet.forEach((discount, eventType) => {
+        if (discount !== 0) {
+          benefitDetails += OUTPUT_MESSAGE.details(eventType, discount);
+        }
+      });
+
+      expect(benefitDetails).toContain(eventType);
+    });
   });
 });
 
@@ -104,4 +126,12 @@ function makeOrderSheet() {
   const dessertCount = order.countDessertMenu(orderSheet);
   const mainCount = order.countMainMenu(orderSheet);
   return { totalAmount, dessertCount, mainCount };
+}
+
+function hasNoneDiscounts() {
+  const noneDiscount = [...benefitSheet.values()].every(
+    discount => discount === 0,
+  );
+
+  return noneDiscount;
 }

@@ -5,8 +5,12 @@ class Order {
   #orders;
 
   constructor(orders) {
-    orderValidator(orders);
-    this.#orders = orders;
+    try {
+      orderValidator.validateOrder(orders);
+      this.#orders = orders;
+    } catch (error) {
+      throw error;
+    }
   }
 
   createOrderSheet() {

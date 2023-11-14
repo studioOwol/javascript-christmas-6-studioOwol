@@ -1,9 +1,10 @@
 import { ERROR } from '../src/constants/errors.js';
 import CustomError from '../src/utils/CustomError.js';
 import { KINDS, MENUS } from '../src/constants/menus.js';
+import { PERIOD } from '../src/constants/events.js';
 
 describe('Validator', () => {
-  describe('OrderValidator', () => {
+  describe('orderValidator', () => {
     test('주문 개수가 20개를 초과하면, 에러를 발생시킨다.', () => {
       const orders = ['시저샐러드-10', '타파스-11'];
       const totalCount = orders.reduce((count, order) => {
@@ -55,6 +56,48 @@ describe('Validator', () => {
         if (!hasNonDrinkOrder) {
           throw new CustomError(ERROR.hasDrinkOnly);
         }
+      }).toThrow();
+    });
+  });
+
+  describe('formValidator', () => {
+    function isNumber(number) {
+      return /^\d+$/.test(number);
+    }
+
+    test('방문 날짜를 입력하면, 숫자인지 확인한다.', () => {
+      const visitDay = 'a';
+
+      expect(() => {
+        if (!isNumber(visitDay)) {
+          throw new CustomError(ERROR.invalidDay);
+        }
+      }).toThrow();
+    });
+
+    test('방문 날짜를 입력하면, 이벤트 기간 범위인지 확인한다.', () => {
+      const visitDay = 32;
+
+      expect(() => {
+        if (visitDay < PERIOD.min || visitDay > PERIOD.max) {
+          throw new CustomError(ERROR.invalidDay);
+        }
+      }).toThrow();
+    });
+
+    test('메뉴를 입력하면, 주문 형식과 일치하는지 확인한다.', () => {
+      const order = '양송이수프-a';
+      const trimmedOrder = order.trim().replace(/\s/g, '');
+
+      expect(() => {
+        const parts = trimmedOrder.split(',');
+
+        parts.forEach(part => {
+          const [menuName, quantity] = part.split('-');
+          if (!menuName || Number(quantity) < 1 || isNaN(quantity)) {
+            throw new CustomError(ERROR.invalidOrder);
+          }
+        });
       }).toThrow();
     });
   });

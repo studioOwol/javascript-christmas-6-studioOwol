@@ -1,5 +1,6 @@
 import { DAYS, DISCOUNT, EVENTS, NAMES } from '../constants/events.js';
 import { MENUS } from '../constants/menus.js';
+import { OUTPUT_MESSAGE } from '../constants/texts.js';
 
 class Benefit {
   #visitDay;

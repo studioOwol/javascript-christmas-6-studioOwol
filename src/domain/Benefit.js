@@ -3,9 +3,75 @@ import { MENUS } from '../constants/menus.js';
 
 class Benefit {
   #visitDay;
+  #benefitSheet;
 
   constructor(visitDay) {
     this.#visitDay = visitDay;
+    this.#benefitSheet = new Map([
+      [EVENTS.season.name, 0],
+      [EVENTS.special.name, 0],
+      [EVENTS.weekday.name, 0],
+      [EVENTS.weekend.name, 0],
+      [EVENTS.gift.name, 0],
+    ]);
+  }
+
+  hasGift() {
+    if (this.#benefitSheet.get(EVENTS.gift.name) === 0) {
+      return EVENTS.none;
+    }
+
+    return OUTPUT_MESSAGE.gift;
+  }
+
+  calcaulteTotalBenefit() {
+    let totalBenefit = 0;
+
+    this.#benefitSheet.forEach(discount => {
+      totalBenefit += discount;
+    });
+
+    return totalBenefit;
+  }
+
+  processBenefitDetails() {
+    let benefitDetails = '';
+
+    if (this.hasNoneDiscounts()) {
+      return EVENTS.none;
+    }
+
+    this.#benefitSheet.forEach((discount, eventType) => {
+      if (discount !== 0) {
+        benefitDetails += OUTPUT_MESSAGE.details(eventType, discount);
+      }
+    });
+
+    return benefitDetails;
+  }
+
+  hasNoneDiscounts() {
+    const noneDiscount = [...this.#benefitSheet.values()].every(
+      discount => discount === 0,
+    );
+
+    return noneDiscount;
+  }
+
+  createBenefitSheet(totalAmount, { dessertCount, mainCount }) {
+    const events = Object.keys(EVENTS);
+
+    events.forEach(eventType => {
+      if (totalAmount >= EVENTS[eventType].condition) {
+        const discount = this.calculateDiscount(eventType, {
+          dessertCount,
+          mainCount,
+        });
+        this.#benefitSheet.set(EVENTS[eventType].name, discount);
+      }
+    });
+
+    return this.processBenefitDetails();
   }
 
   calculateDiscount(eventType, { dessertCount, mainCount }) {

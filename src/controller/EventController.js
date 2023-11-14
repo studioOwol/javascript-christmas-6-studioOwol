@@ -22,7 +22,7 @@ class EventController {
   #handleBenefitStage(visitDay, order, totalAmount) {
     const benefit = EventService.createBenefit(visitDay);
     const benefitDetails = EventService.getBenefitSheet(benefit, order);
-    const gift = EventService.getGift(benefit);
+    const gift = EventService.checkGift(totalAmount);
     const totalBenefit = EventService.getTotalBenefit(benefit);
 
     OutputView.printGift(gift);

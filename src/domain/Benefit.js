@@ -17,14 +17,6 @@ class Benefit {
     ]);
   }
 
-  hasGift() {
-    if (this.#benefitSheet.get(EVENTS.gift.name) === 0) {
-      return EVENTS.none;
-    }
-
-    return OUTPUT_MESSAGE.gift;
-  }
-
   calcaulteTotalBenefit() {
     let totalBenefit = 0;
 

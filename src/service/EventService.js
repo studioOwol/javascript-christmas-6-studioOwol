@@ -2,6 +2,7 @@ import { BADGE, EVENTS } from '../constants/events.js';
 import { MENUS } from '../constants/menus.js';
 import Benefit from '../domain/Benefit.js';
 import Order from '../domain/Order.js';
+import { OUTPUT_MESSAGE } from '../constants/texts.js';
 
 const EventService = {
   createBenefit(visitDay) {
@@ -23,8 +24,12 @@ const EventService = {
     return { orderSheet, totalAmount };
   },
 
-  getGift(benefit) {
-    return benefit.hasGift();
+  checkGift(totalAmount) {
+    if (totalAmount < EVENTS.gift.condition) {
+      return EVENTS.none;
+    }
+
+    return OUTPUT_MESSAGE.gift;
   },
 
   getBenefitSheet(benefit, order) {

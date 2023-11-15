@@ -137,7 +137,7 @@ src
 classDiagram
   class EventController {
     +init()
-    -handleOrderSheetStage()
+    -handleOrderStage()
     -handleBenefitStage(visitDay, order, totalAmount)
     -checkPaymentStage(totalAmount, totalBenefit)
     -checkBadgeStage(totalBenefit)
@@ -149,8 +149,9 @@ classDiagram
     +createBenefit(visitDay)
     +createOrder(orders)
     +getOrderSheet(order)
+    +getTotalAmount(order)
     +checkGift(totalAmount)
-    +getBenefitSheet(benefit, order)
+    +getBenefitSheet(benefit, order, totalAmount)
     +getTotalBenefit(benefit)
     +checkPaymentAmount(totalAmount, totalBenefit)
     +checkEventBadge(totalBenefit)
@@ -159,10 +160,11 @@ classDiagram
   class Order {
     -orders
     +constructor(orders)
+    +processOrderDetilas()
     +createOrderSheet()
-    +calculateTotalAmount(orderSheet)
-    +countDessertMenu(orderSheet)
-    +countMainMenu(orderSheet)
+    +calculateTotalAmount()
+    +countDessertMenu()
+    +countMainMenu()
   }
 
   class Benefit {
@@ -188,7 +190,7 @@ classDiagram
   }
 
   class OutputView {
-    +printMenu(orderSheet)
+    +printMenu(orderDetails)
     +printTotalAmount(totalAmount)
     +printGift(gift)
     +printDetails(benefitDetails)

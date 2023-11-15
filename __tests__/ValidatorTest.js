@@ -42,7 +42,7 @@ describe('Validator', () => {
       if (orders.length !== uniqueMenus.size) {
         expect(() => {
           throw new CustomError(ERROR.invalidOrder);
-        });
+        }).toThrow();
       }
     });
 

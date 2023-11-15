@@ -28,6 +28,7 @@ describe('EventService', () => {
       if (totalBenefit + MENUS[EVENTS.gift.item].price < 0) {
         const payment =
           totalAmount + totalBenefit + MENUS[EVENTS.gift.item].price;
+
         expect(payment).toBe(135754);
       }
     });

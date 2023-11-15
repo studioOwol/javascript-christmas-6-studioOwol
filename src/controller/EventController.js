@@ -5,10 +5,10 @@ import OutputView from '../views/OutputView.js';
 
 class EventController {
   async init() {
-    await this.#handleOrderSheetStage();
+    await this.#handleOrderStage();
   }
 
-  async #handleOrderSheetStage() {
+  async #handleOrderStage() {
     const visitDay = await this.#takeVisitDayStage();
     const order = await this.#takeOrderStage();
     const orderDetails = EventService.getOrderSheet(order);

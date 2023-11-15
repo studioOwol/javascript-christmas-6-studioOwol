@@ -16,11 +16,20 @@ const formValidator = {
 
   validateOrderForm(parts) {
     parts.forEach(part => {
-      const [menuName, quantity] = part.split(SYMBOL.bar);
-      if (!menuName || Number(quantity) < MENU_RULE.min || isNaN(quantity)) {
+      const quantity = part.split(SYMBOL.bar)[1];
+
+      if (!this.isRightForm(part)) {
+        throw new CustomError(ERROR.invalidOrder);
+      }
+
+      if (Number(quantity) < MENU_RULE.min) {
         throw new CustomError(ERROR.invalidOrder);
       }
     });
+  },
+
+  isRightForm(menu) {
+    return /^[a-z|A-z|ㄱ-ㅎ|가-힣|0-9|\s]+-[0-9\s]+$/.test(menu);
   },
 
   isNumber(number) {

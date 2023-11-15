@@ -7,7 +7,7 @@ const InputView = {
     let visitDay;
     try {
       visitDay = await Console.readLineAsync(INPUT_MESSAGE.visitDay);
-      formValidator.validateDate(Number(visitDay));
+      formValidator.validateDate(visitDay);
     } catch (error) {
       Console.print(error.message);
       return this.readDate();

@@ -1,5 +1,5 @@
 import { KINDS, MENUS } from '../src/constants/menus.js';
-import { OUTPUT_MESSAGE } from '../src/constants/texts.js';
+import { OUTPUT_MESSAGE, SYMBOL } from '../src/constants/texts.js';
 
 describe('Order', () => {
   let orderSheet = new Map();
@@ -21,7 +21,7 @@ describe('Order', () => {
     const orders = ['타파스-2', '샴페인-1'];
 
     orders.forEach(order => {
-      const [menuName, quantity] = order.split('-');
+      const [menuName, quantity] = order.split(SYMBOL.bar);
       orderSheet.set(menuName, Number(quantity));
     });
 

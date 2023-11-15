@@ -1,6 +1,6 @@
 import { KINDS, MENUS } from '../constants/menus.js';
 import OrderValidator from '../utils/orderValidator.js';
-import { OUTPUT_MESSAGE } from '../constants/texts.js';
+import { OUTPUT_MESSAGE, SYMBOL } from '../constants/texts.js';
 
 class Order {
   #orders;
@@ -30,7 +30,7 @@ class Order {
 
   createOrderSheet() {
     this.#orders.forEach(order => {
-      const [menuName, quantity] = order.split('-');
+      const [menuName, quantity] = order.split(SYMBOL.bar);
 
       this.#orderSheet.set(menuName, Number(quantity));
     });

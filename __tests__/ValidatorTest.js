@@ -1,6 +1,6 @@
 import { ERROR } from '../src/constants/errors.js';
 import CustomError from '../src/utils/CustomError.js';
-import { KINDS, MENUS } from '../src/constants/menus.js';
+import { KINDS, MENUS, MENU_RULE } from '../src/constants/menus.js';
 import { PERIOD } from '../src/constants/events.js';
 import { SYMBOL } from '../src/constants/texts.js';
 
@@ -97,7 +97,11 @@ describe('Validator', () => {
 
         parts.forEach(part => {
           const [menuName, quantity] = part.split(SYMBOL.bar);
-          if (!menuName || Number(quantity) < 1 || isNaN(quantity)) {
+          if (
+            !menuName ||
+            Number(quantity) < MENU_RULE.min ||
+            isNaN(quantity)
+          ) {
             throw new CustomError(ERROR.invalidOrder);
           }
         });

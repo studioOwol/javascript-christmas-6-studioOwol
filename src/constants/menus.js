@@ -56,4 +56,9 @@ const MENUS = Object.freeze({
   },
 });
 
-export { MENUS, KINDS };
+const MENU_RULE = Object.freeze({
+  min: 1,
+  max: 20,
+});
+
+export { MENUS, KINDS, MENU_RULE };

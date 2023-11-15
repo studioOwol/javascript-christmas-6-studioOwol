@@ -1,5 +1,5 @@
 import { ERROR } from '../constants/errors.js';
-import { MENUS, KINDS } from '../constants/menus.js';
+import { MENUS, KINDS, MENU_RULE } from '../constants/menus.js';
 import CustomError from './CustomError.js';
 import { SYMBOL } from '../constants/texts.js';
 
@@ -17,7 +17,7 @@ const orderValidator = {
       return count + quantity;
     }, 0);
 
-    if (totalCount > 20) {
+    if (totalCount > MENU_RULE.max) {
       throw new CustomError(ERROR.exceedOrder);
     }
   },

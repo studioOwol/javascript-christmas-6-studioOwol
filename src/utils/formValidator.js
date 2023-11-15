@@ -2,6 +2,7 @@ import { PERIOD } from '../constants/events.js';
 import { ERROR } from '../constants/errors.js';
 import CustomError from './CustomError.js';
 import { SYMBOL } from '../constants/texts.js';
+import { MENU_RULE } from '../constants/menus.js';
 
 const formValidator = {
   validateDate(visitDay) {
@@ -16,7 +17,7 @@ const formValidator = {
   validateOrderForm(parts) {
     parts.forEach(part => {
       const [menuName, quantity] = part.split(SYMBOL.bar);
-      if (!menuName || Number(quantity) < 1 || isNaN(quantity)) {
+      if (!menuName || Number(quantity) < MENU_RULE.min || isNaN(quantity)) {
         throw new CustomError(ERROR.invalidOrder);
       }
     });

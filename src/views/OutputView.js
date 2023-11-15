@@ -2,12 +2,10 @@ import { Console } from '@woowacourse/mission-utils';
 import { OUTPUT_MESSAGE, TITLE } from '../constants/texts.js';
 
 const OutputView = {
-  printMenu(orderSheet) {
+  printMenu(orderDetails) {
     Console.print(OUTPUT_MESSAGE.preview);
     Console.print(TITLE.menu);
-    orderSheet.forEach((count, menuName) => {
-      Console.print(OUTPUT_MESSAGE.menus(menuName, count));
-    });
+    Console.print(orderDetails);
   },
 
   printTotalAmount(totalAmount) {

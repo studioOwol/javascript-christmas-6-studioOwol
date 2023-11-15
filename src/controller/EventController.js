@@ -11,21 +11,26 @@ class EventController {
   async #handleOrderSheetStage() {
     const visitDay = await this.#takeVisitDayStage();
     const order = await this.#takeOrderStage();
-    const { orderSheet, totalAmount } = EventService.getOrderSheet(order);
+    const orderDetails = EventService.getOrderSheet(order);
+    const totalAmount = EventService.getTotalAmount(order);
+    const gift = EventService.checkGift(totalAmount);
 
-    OutputView.printMenu(orderSheet);
+    OutputView.printMenu(orderDetails);
     OutputView.printTotalAmount(totalAmount);
+    OutputView.printGift(gift);
 
     this.#handleBenefitStage(visitDay, order, totalAmount);
   }
 
-  #handleBenefitStage(visitDay, order, totalAmount) {
+  async #handleBenefitStage(visitDay, order, totalAmount) {
     const benefit = EventService.createBenefit(visitDay);
-    const benefitDetails = EventService.getBenefitSheet(benefit, order);
-    const gift = EventService.checkGift(totalAmount);
+    const benefitDetails = EventService.getBenefitSheet(
+      benefit,
+      order,
+      totalAmount,
+    );
     const totalBenefit = EventService.getTotalBenefit(benefit);
 
-    OutputView.printGift(gift);
     OutputView.printDetails(benefitDetails);
     OutputView.printTotalBenefit(totalBenefit);
 
@@ -36,6 +41,7 @@ class EventController {
     const payment = EventService.checkPaymentAmount(totalAmount, totalBenefit);
 
     OutputView.printPayment(payment);
+
     this.#checkBadgeStage(totalBenefit);
   }
 

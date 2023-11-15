@@ -18,10 +18,15 @@ const EventService = {
   },
 
   getOrderSheet(order) {
-    const orderSheet = order.createOrderSheet();
-    const totalAmount = order.calculateTotalAmount(orderSheet);
+    const orderDetails = order.createOrderSheet();
 
-    return { orderSheet, totalAmount };
+    return orderDetails;
+  },
+
+  getTotalAmount(order) {
+    const totalAmount = order.calculateTotalAmount();
+
+    return totalAmount;
   },
 
   checkGift(totalAmount) {
@@ -32,10 +37,9 @@ const EventService = {
     return OUTPUT_MESSAGE.gift;
   },
 
-  getBenefitSheet(benefit, order) {
-    const { orderSheet, totalAmount } = this.getOrderSheet(order);
-    const dessertCount = order.countDessertMenu(orderSheet);
-    const mainCount = order.countMainMenu(orderSheet);
+  getBenefitSheet(benefit, order, totalAmount) {
+    const dessertCount = order.countDessertMenu();
+    const mainCount = order.countMainMenu();
     const benefitDetails = benefit.createBenefitSheet(totalAmount, {
       dessertCount,
       mainCount,

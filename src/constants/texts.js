@@ -9,7 +9,7 @@ const INPUT_MESSAGE = {
 
 const OUTPUT_MESSAGE = {
   preview: '12월 3일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!',
-  menus: (menuName, count) => `${menuName} ${count}개`,
+  menus: (menuName, count) => `${menuName} ${count}개\n`,
   totalAmount: totalAmount => `${totalAmount.toLocaleString()}원`,
   gift: `${EVENTS.gift.item} ${EVENTS.gift.count}개`,
   details: (eventType, discount) =>

@@ -1,5 +1,10 @@
+import EventController from './controller/EventController.js';
+
 class App {
-  async run() {}
+  #eventController = new EventController();
+  async run() {
+    await this.#eventController.init();
+  }
 }
 
 export default App;
